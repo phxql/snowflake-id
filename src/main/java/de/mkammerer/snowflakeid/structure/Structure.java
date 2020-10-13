@@ -11,25 +11,19 @@ public class Structure {
     private final int sequenceBits;
 
     public Structure(int timestampBits, int generatorBits, int sequenceBits) {
-        if (timestampBits < 0) {
-            throw new IllegalArgumentException("timestampBits must no be < 0, but was " + timestampBits);
+        if (timestampBits < 1) {
+            throw new IllegalArgumentException("timestampBits must no be <= 0, but was " + timestampBits);
         }
-        if (generatorBits < 0) {
-            throw new IllegalArgumentException("generatorBits must no be < 0, but was " + generatorBits);
+        if (generatorBits < 1 || generatorBits > 31) {
+            throw new IllegalArgumentException("generatorBits must be between 1 (inclusive) and 31 (inclusive), but was " + generatorBits);
         }
-        if (sequenceBits < 0) {
-            throw new IllegalArgumentException("sequenceBits must no be < 0, but was " + sequenceBits);
+        if (sequenceBits < 1 || sequenceBits > 31) {
+            throw new IllegalArgumentException("sequenceBits must be between 1 (inclusive) and 31 (inclusive), but was " + sequenceBits);
         }
 
         int sum = timestampBits + generatorBits + sequenceBits;
         if (sum != 63) {
             throw new IllegalArgumentException("timestampBits + generatorBits + sequenceBits must be 63, but was " + sum);
-        }
-        if (generatorBits > 31) {
-            throw new IllegalArgumentException("generatorBits must not be > 31, but was " + generatorBits);
-        }
-        if (sequenceBits > 31) {
-            throw new IllegalArgumentException("sequenceBits must not be > 31, but was " + sequenceBits);
         }
 
         this.timestampBits = timestampBits;
