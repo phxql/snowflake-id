@@ -20,7 +20,7 @@ public class SnowflakeIdGenerator {
     private final Options options;
 
     // precalculated variables for bit magic
-    private final long maskSequence;
+    private final long maxSequence;
     private final long maskTime;
     private final int shiftTime;
     private final int shiftGenerator;
@@ -32,7 +32,7 @@ public class SnowflakeIdGenerator {
     /**
      * Sequence number, unique per timestamp.
      */
-    private int sequence = 0;
+    private long sequence = 0;
 
     // Structure:
     // time || generator || sequence
@@ -41,15 +41,14 @@ public class SnowflakeIdGenerator {
         this.structure = Objects.requireNonNull(structure, "structure");
         this.options = Objects.requireNonNull(options, "options");
 
-        int maxGeneratorId = 1 << structure.getGeneratorBits();
-        if (generatorId < 0 || generatorId >= maxGeneratorId) {
-            throw new IllegalArgumentException("generatorId must be between 0 (inclusive) and " + maxGeneratorId + " (exclusive), but was " + generatorId);
+        if (generatorId < 0 || generatorId >= structure.maxGenerators()) {
+            throw new IllegalArgumentException("generatorId must be between 0 (inclusive) and " + structure.maxGenerators() + " (exclusive), but was " + generatorId);
         }
 
         this.generatorId = generatorId;
 
         maskTime = calculateMask(structure.getTimestampBits());
-        maskSequence = calculateMask(structure.getSequenceBits());
+        maxSequence = calculateMask(structure.getSequenceBits());
         shiftTime = structure.getGeneratorBits() + structure.getSequenceBits();
         shiftGenerator = structure.getSequenceBits();
     }
@@ -75,7 +74,7 @@ public class SnowflakeIdGenerator {
 
             if (timestamp == lastTimestamp) {
                 // Same timeslot
-                if (sequence >= maskSequence) {
+                if (sequence >= maxSequence) {
                     handleSequenceOverflow();
                     return next();
                 }
