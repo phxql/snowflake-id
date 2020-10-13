@@ -8,6 +8,20 @@ This project was heavily inspired by [IdGen](https://github.com/RobThree/IdGen) 
 
 The algorithm is implemented in plain Java without any dependencies. All you need is at least Java 11.
 
+Such generated id in binary looks like this (this is 4425020822061056 in decimal):
+
+```
+0000000000001111101110001000100001110010001110010000000000000000
+||                                            | |
+|| Timestamp (16880114830)                    | | Sequence (0)
+|                                             |
+| Sign bit (always 0)                         | Generator id (1)
+```
+
+The structure used for this is 45 bits for the timestamp, 2 for the generator and the remaining 16 for the sequence.
+
+It really uses only 63 bits of the 64 available to circumvent problems with unsigned longs. The generated values are always positive.
+
 ## How to use
 
 ### Simple example
