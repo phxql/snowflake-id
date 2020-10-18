@@ -1,13 +1,10 @@
 package de.mkammerer.snowflakeid.time;
 
 import de.mkammerer.snowflakeid.test.MockTimeSource;
-import org.awaitility.Awaitility;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
-
-import java.time.Duration;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -21,9 +18,9 @@ class MonotonicTimeSourceTest {
     }
 
     @Test
-    void increasing() {
+    void increasing() throws InterruptedException {
         long start = sut.getTicks();
-        Awaitility.await().atLeast(Duration.ofMillis(1));
+        Thread.sleep(10);
         long next = sut.getTicks();
 
         assertThat(next).isGreaterThan(start);
