@@ -18,9 +18,10 @@ Such generated id in binary looks like this (this is 4425020822061056 in decimal
 | Sign bit (always 0)                         | Generator id (1)
 ```
 
-The structure used for this is 45 bits for the timestamp, 2 for the generator and the remaining 16 for the sequence.
+The structure used for this is 45 bits for the timestamp, 2 for the generator and the remaining 16 for the sequence. This structure can be changed easily, see below for the code. 
 
-It really uses only 63 bits of the 64 available to circumvent problems with unsigned longs. The generated values are always positive.
+The ids really use only 63 bits of the 64 available to circumvent problems with unsigned longs. The generated values are always positive.
+Ids from the same generator are monotonically increasing.
 
 ## How to use
 
@@ -59,6 +60,43 @@ for (int i = 0; i < 10; i++) {
     long id = generator.next();
     System.out.println(id);
 }
+```
+
+### Calculate maximum timestamps, generators, sequence ids and wraparound dates
+
+You can query the `Structure` class to find out the maximum numbers of timestamps, generators, sequence ids and wraparpund dates:
+
+```java
+TimeSource timeSource = new MonotonicTimeSource(Instant.parse("2020-04-01T00:00:00Z"));
+
+Structure structure = new Structure(45, 2, 16);
+System.out.println("Max generators: " + structure.maxGenerators());
+System.out.println("Max sequences per ms per generator: " + structure.maxSequenceIds());
+System.out.println("Max sequences per ms total: " + structure.maxSequenceIds() * structure.maxGenerators());
+System.out.println("Wraparound duration: " + structure.calculateWraparoundDuration(timeSource));
+System.out.println("Wraparound date: " + structure.calculateWraparoundDate(timeSource));
+```
+
+This prints:
+
+```
+Max generators: 4
+Max sequences per ms per generator: 65536
+Max sequences per ms total: 262144
+Wraparound duration: PT9773436H41M28.832S
+Wraparound date: 3135-03-14T12:41:28.832Z
+```
+
+The default settings for the `Structure` are 41 bits for the timestamp, 10 for the generator id and 12 for the sequence.
+
+This will lead to the following properties:
+
+```
+Max generators: 1024
+Max sequences per ms per generator: 4096
+Max sequences per ms total: 4194304
+Wraparound duration: PT610839H47M35.552S
+Wraparound date: 2089-09-06T15:47:35.552Z
 ```
 
 ## License
