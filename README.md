@@ -87,6 +87,8 @@ Wraparound duration: PT9773436H41M28.832S
 Wraparound date: 3135-03-14T12:41:28.832Z
 ```
 
+### Default settings
+
 The default settings for the `Structure` are 41 bits for the timestamp, 10 for the generator id and 12 for the sequence.
 
 This will lead to the following properties:
