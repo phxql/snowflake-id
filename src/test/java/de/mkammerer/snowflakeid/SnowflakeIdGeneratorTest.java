@@ -20,26 +20,36 @@ import static org.assertj.core.api.Assertions.fail;
 class SnowflakeIdGeneratorTest {
     @Test
     void generate_unique() {
-        SnowflakeIdGenerator sut = SnowflakeIdGenerator.createDefault(0);
-        int count = 10000;
+        // Use two generators to generate 20000 ids and check them for uniqueness and increasing order
+
+        SnowflakeIdGenerator generator0 = SnowflakeIdGenerator.createDefault(0);
+        SnowflakeIdGenerator generator1 = SnowflakeIdGenerator.createDefault(1);
+        int count = 10_000;
 
         Set<Long> ids = new HashSet<>(count);
 
-        long lastId = -1;
+        long lastGen0Id = -1;
+        long lastGen1Id = -1;
 
         for (int i = 0; i < count; i++) {
-            long id = sut.next();
+            long gen0id = generator0.next();
+            long gen1id = generator1.next();
 
             // All ids from the same generator are increasing
-            assertThat(id).isGreaterThan(lastId);
-            lastId = id;
+            assertThat(gen0id).isGreaterThan(lastGen0Id);
+            lastGen0Id = gen0id;
+            assertThat(gen1id).isGreaterThan(lastGen1Id);
+            lastGen1Id = gen1id;
 
-            if (!ids.add(id)) {
-                fail(id + " is a duplicate");
+            if (!ids.add(gen0id)) {
+                fail(gen0id + " is a duplicate");
+            }
+            if (!ids.add(gen1id)) {
+                fail(gen1id + " is a duplicate");
             }
         }
 
-        assertThat(ids).hasSize(count);
+        assertThat(ids).hasSize(count * 2);
     }
 
     @Test
