@@ -25,6 +25,16 @@ Ids from the same generator are monotonically increasing.
 
 ## How to use
 
+### Maven
+
+```xml
+<dependency>
+  <groupId>de.mkammerer.snowflake-id</groupId>
+  <artifactId>snowflake-id</artifactId>
+  <version>0.0.1</version>
+</dependency>
+```
+
 ### Simple example
 
 ```java
