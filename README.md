@@ -64,7 +64,7 @@ for (int i = 0; i < 10; i++) {
 
 ### Calculate maximum timestamps, generators, sequence ids and wraparound dates
 
-You can query the `Structure` class to find out the maximum numbers of timestamps, generators, sequence ids and wraparpund dates:
+You can query the `Structure` class to find out the maximum numbers of timestamps, generators, sequence ids and wraparound dates:
 
 ```java
 TimeSource timeSource = new MonotonicTimeSource(Instant.parse("2020-04-01T00:00:00Z"));
