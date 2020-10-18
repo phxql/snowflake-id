@@ -1,5 +1,6 @@
 package de.mkammerer.snowflakeid.time;
 
+import de.mkammerer.snowflakeid.test.MockTimeSource;
 import org.awaitility.Awaitility;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayNameGeneration;
@@ -7,7 +8,6 @@ import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
 
 import java.time.Duration;
-import java.time.Instant;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -17,7 +17,7 @@ class MonotonicTimeSourceTest {
 
     @BeforeEach
     void setUp() {
-        sut = new MonotonicTimeSource(Instant.parse("2020-01-01T00:00:00Z"));
+        sut = new MonotonicTimeSource(MockTimeSource.DEFAULT_EPOCH);
     }
 
     @Test

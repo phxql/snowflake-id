@@ -80,7 +80,7 @@ class StructureTest {
     void calculateWraparoundDuration() {
         Structure structure = new Structure(31, 10, 22);
 
-        MockTimeSource mockTimeSource = new MockTimeSource(Instant.parse("2020-01-01T00:00:00Z"), 0);
+        MockTimeSource mockTimeSource = new MockTimeSource(MockTimeSource.DEFAULT_EPOCH, 0);
 
         assertThat(structure.calculateWraparoundDuration(mockTimeSource)).isEqualTo(Duration.ofMillis(2147483648L));
     }

@@ -6,6 +6,8 @@ import java.time.Duration;
 import java.time.Instant;
 
 public class MockTimeSource implements TimeSource {
+    public static final Instant DEFAULT_EPOCH = Instant.parse("2020-01-01T00:00:00Z");
+
     private final Instant epoch;
     private long ticks;
 
