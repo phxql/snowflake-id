@@ -32,6 +32,15 @@
     <url>https://github.com/phxql/snowflake-id</url>
   </scm>
 
+  <developers>
+    <developer>
+      <id>phxql</id>
+      <email>kammerer.moritz@gmail.com</email>
+      <name>Moritz Kammerer</name>
+      <url>https://www.mkammerer.de</url>
+    </developer>
+  </developers>
+
   <dependencyManagement>
     <dependencies>
       <dependency>
