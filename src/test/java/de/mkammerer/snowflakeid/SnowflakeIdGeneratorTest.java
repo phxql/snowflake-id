@@ -26,8 +26,14 @@ class SnowflakeIdGeneratorTest {
 
         Set<Long> ids = new HashSet<>(count);
 
+        long lastId = -1;
+
         for (int i = 0; i < count; i++) {
             long id = sut.next();
+
+            // All ids from the same generator are increasing
+            assertThat(id).isGreaterThan(lastId);
+            lastId = id;
 
             if (!ids.add(id)) {
                 fail(id + " is a duplicate");
