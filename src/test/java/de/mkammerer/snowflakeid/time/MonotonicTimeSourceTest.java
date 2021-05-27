@@ -9,16 +9,16 @@ import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
-class MonotonicTimeSourceTest {
+public class MonotonicTimeSourceTest {
     private MonotonicTimeSource sut;
 
     @BeforeEach
-    void setUp() {
+    public void setUp() {
         sut = new MonotonicTimeSource(MockTimeSource.DEFAULT_EPOCH);
     }
 
     @Test
-    void increasing() throws InterruptedException {
+    public void increasing() throws InterruptedException {
         long start = sut.getTicks();
         Thread.sleep(10);
         long next = sut.getTicks();

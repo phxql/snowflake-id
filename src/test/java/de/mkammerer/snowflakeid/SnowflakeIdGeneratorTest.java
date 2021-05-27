@@ -17,9 +17,9 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.Assertions.fail;
 
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
-class SnowflakeIdGeneratorTest {
+public class SnowflakeIdGeneratorTest {
     @Test
-    void generate_unique() {
+    public void generate_unique() {
         // Use two generators to generate 20000 ids and check them for uniqueness and increasing order
 
         SnowflakeIdGenerator generator0 = SnowflakeIdGenerator.createDefault(0);
@@ -53,14 +53,14 @@ class SnowflakeIdGeneratorTest {
     }
 
     @Test
-    void forbid_negative_generator_id() {
+    public void forbid_negative_generator_id() {
         assertThatThrownBy(() ->
             SnowflakeIdGenerator.createDefault(-1)
         ).isInstanceOf(IllegalArgumentException.class).hasMessageContaining("generatorId");
     }
 
     @Test
-    void forbid_too_big_generator_id() {
+    public void forbid_too_big_generator_id() {
         assertThatThrownBy(() ->
             // Maximum generator id is 7
             SnowflakeIdGenerator.createCustom(1024, MonotonicTimeSource.createDefault(), new Structure(50, 3, 10), Options.createDefault())
@@ -68,7 +68,7 @@ class SnowflakeIdGeneratorTest {
     }
 
     @Test
-    void sequence_overflow_exception() {
+    public void sequence_overflow_exception() {
         // We use 1 bit for the sequence, this should overflow pretty fast!
         SnowflakeIdGenerator sut = SnowflakeIdGenerator.createCustom(0, MonotonicTimeSource.createDefault(), new Structure(50, 12, 1), new Options(Options.SequenceOverflowStrategy.THROW_EXCEPTION));
 
@@ -80,7 +80,7 @@ class SnowflakeIdGeneratorTest {
     }
 
     @Test
-    void sequence_overflow_spin_wait() {
+    public void sequence_overflow_spin_wait() {
         // We use 1 bit for the sequence, this should overflow pretty fast!
         SnowflakeIdGenerator sut = SnowflakeIdGenerator.createCustom(0, MonotonicTimeSource.createDefault(), new Structure(50, 12, 1), new Options(Options.SequenceOverflowStrategy.SPIN_WAIT));
 
@@ -92,7 +92,7 @@ class SnowflakeIdGeneratorTest {
     }
 
     @Test
-    void protect_against_negative_ticks() {
+    public void protect_against_negative_ticks() {
         MockTimeSource mockTimeSource = new MockTimeSource(MockTimeSource.DEFAULT_EPOCH, -1);
 
         SnowflakeIdGenerator sut = SnowflakeIdGenerator.createCustom(0, mockTimeSource, Structure.createDefault(), Options.createDefault());
@@ -103,7 +103,7 @@ class SnowflakeIdGeneratorTest {
     }
 
     @Test
-    void protect_against_clock_moved_backwards() {
+    public void protect_against_clock_moved_backwards() {
         MockTimeSource mockTimeSource = new MockTimeSource(MockTimeSource.DEFAULT_EPOCH, 1);
 
         SnowflakeIdGenerator sut = SnowflakeIdGenerator.createCustom(0, mockTimeSource, Structure.createDefault(), Options.createDefault());
