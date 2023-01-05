@@ -6,6 +6,8 @@ to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 
 - Add module descriptor. Module is named `de.mkammerer.snowflakeid`
+- Switched `synchronized` to `ReentrantLock`
+- Fixed bug where `SnowflakeIdGenerator` wasn't thread safe - [#4](https://github.com/phxql/snowflake-id/issues/4)
 
 ## [0.0.1] - 2020-10-18
 
