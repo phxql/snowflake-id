@@ -8,13 +8,16 @@ import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatCode;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.assertj.core.api.Assertions.fail;
+import static org.assertj.core.api.Assertions.*;
 
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 public class SnowflakeIdGeneratorTest {
@@ -97,9 +100,7 @@ public class SnowflakeIdGeneratorTest {
 
         SnowflakeIdGenerator sut = SnowflakeIdGenerator.createCustom(0, mockTimeSource, Structure.createDefault(), Options.createDefault());
 
-        assertThatThrownBy(() ->
-            sut.next()
-        ).isInstanceOf(IllegalStateException.class).hasMessageContaining("negative ticks");
+        assertThatThrownBy(sut::next).isInstanceOf(IllegalStateException.class).hasMessageContaining("negative ticks");
     }
 
     @Test
@@ -112,9 +113,29 @@ public class SnowflakeIdGeneratorTest {
         sut.next();
 
         mockTimeSource.setTicks(1);
-        assertThatThrownBy(() ->
-            sut.next()
-        ).isInstanceOf(IllegalStateException.class).hasMessageContaining("moved backwards");
+        assertThatThrownBy(sut::next).isInstanceOf(IllegalStateException.class).hasMessageContaining("moved backwards");
+
+    }
+
+    @Test
+    void is_thread_safe() throws ExecutionException, InterruptedException {
+        int workers = 100;
+        int ids = 100_000;
+
+        SnowflakeIdGenerator sut = SnowflakeIdGenerator.createDefault(1);
+        ExecutorService executorService = Executors.newFixedThreadPool(workers);
+        try {
+            List<Future<Long>> futures = new ArrayList<>();
+            for (int i = 0; i < ids; i++) {
+                futures.add(executorService.submit(sut::next));
+            }
+
+            for (Future<Long> future : futures) {
+                future.get();
+            }
+        } finally {
+            executorService.shutdownNow();
+        }
 
     }
 }

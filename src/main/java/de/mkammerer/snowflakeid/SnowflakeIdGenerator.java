@@ -62,14 +62,14 @@ public class SnowflakeIdGenerator {
      * @throws IllegalStateException if some invariant has been broken, e.g. the clock moved backwards or a sequence overflow occurred
      */
     public long next() {
-        long ticks = timeSource.getTicks();
-        if (ticks < 0) {
-            throw new IllegalStateException("Clock gave negative ticks");
-        }
-        long timestamp = ticks & maskTime;
-
         lock.lock();
         try {
+            long ticks = timeSource.getTicks();
+            if (ticks < 0) {
+                throw new IllegalStateException("Clock gave negative ticks");
+            }
+            long timestamp = ticks & maskTime;
+
             // Guard against non-monotonic clocks
             if (timestamp < lastTimestamp) {
                 throw new IllegalStateException("Timestamp moved backwards or wrapped around");
