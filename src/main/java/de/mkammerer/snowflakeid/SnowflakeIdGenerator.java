@@ -57,7 +57,7 @@ public class SnowflakeIdGenerator {
      * Generates the next id.
      *
      * @return next id
-     * @throws IllegalStateException if some invariant has been broken, e.g. the clock moved backwards or a sequence overflow occured
+     * @throws IllegalStateException if some invariant has been broken, e.g. the clock moved backwards or a sequence overflow occurred
      */
     public long next() {
         long ticks = timeSource.getTicks();
