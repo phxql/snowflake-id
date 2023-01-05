@@ -56,28 +56,28 @@ public class StructureTest {
     }
 
     @Test
-    public void maxTimestamps() {
+    public void max_timestamps() {
         Structure structure = new Structure(31, 10, 22);
 
         assertThat(structure.maxTimestamps()).isEqualTo(2147483648L);
     }
 
     @Test
-    public void maxGenerators() {
+    public void max_generators() {
         Structure structure = new Structure(31, 10, 22);
 
         assertThat(structure.maxGenerators()).isEqualTo(1024L);
     }
 
     @Test
-    public void maxSequenceIds() {
+    public void max_sequence_ids() {
         Structure structure = new Structure(31, 10, 22);
 
         assertThat(structure.maxSequenceIds()).isEqualTo(4194304L);
     }
 
     @Test
-    public void calculateWraparoundDuration() {
+    public void calculate_wraparound_duration() {
         Structure structure = new Structure(31, 10, 22);
 
         MockTimeSource mockTimeSource = new MockTimeSource(MockTimeSource.DEFAULT_EPOCH, 0);
@@ -86,7 +86,7 @@ public class StructureTest {
     }
 
     @Test
-    public void calculateWraparoundDate() {
+    public void calculate_wraparound_date() {
         Structure structure = new Structure(31, 10, 22);
 
         MockTimeSource mockTimeSource = new MockTimeSource(Instant.parse("2020-01-01T00:00:00Z"), 0);
