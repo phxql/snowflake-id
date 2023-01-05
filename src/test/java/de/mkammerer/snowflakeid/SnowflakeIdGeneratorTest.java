@@ -118,7 +118,7 @@ public class SnowflakeIdGeneratorTest {
     }
 
     @Test
-    void is_thread_safe() throws ExecutionException, InterruptedException {
+    public void is_thread_safe() throws ExecutionException, InterruptedException {
         int workers = 100;
         int ids = 100_000;
 
