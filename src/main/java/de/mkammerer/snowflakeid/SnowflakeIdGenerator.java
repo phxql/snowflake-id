@@ -6,12 +6,14 @@ import de.mkammerer.snowflakeid.time.MonotonicTimeSource;
 import de.mkammerer.snowflakeid.time.TimeSource;
 
 import java.util.Objects;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class SnowflakeIdGenerator {
     /**
      * Lock for sequence and lastTimestamp.
      */
-    private final Object lock = new Object();
+    private final Lock lock = new ReentrantLock();
 
     // Stuff which is set in the constructor
     private final long generatorId;
@@ -66,7 +68,8 @@ public class SnowflakeIdGenerator {
         }
         long timestamp = ticks & maskTime;
 
-        synchronized (lock) {
+        lock.lock();
+        try {
             // Guard against non-monotonic clocks
             if (timestamp < lastTimestamp) {
                 throw new IllegalStateException("Timestamp moved backwards or wrapped around");
@@ -86,6 +89,8 @@ public class SnowflakeIdGenerator {
             }
 
             return (timestamp << shiftTime) + (generatorId << shiftGenerator) + sequence;
+        } finally {
+            lock.unlock();
         }
     }
 
