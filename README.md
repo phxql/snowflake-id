@@ -1,10 +1,14 @@
 # SnowflakeId
 
+[![Java CI](https://github.com/phxql/snowflake-id/actions/workflows/build.yaml/badge.svg)](https://github.com/phxql/snowflake-id/actions/workflows/build.yaml)
+
 Generates Twitter-like Snowflake ids.
 In short, this is an id scheme to generate unique 64 bit ids which are roughly sortable across multiple systems without
-a central instance. [See this blog post for more details](https://blog.twitter.com/engineering/en_us/a/2010/announcing-snowflake.html).
+a central
+instance. [See this blog post for more details](https://blog.twitter.com/engineering/en_us/a/2010/announcing-snowflake.html).
 
-This project was heavily inspired by [IdGen](https://github.com/RobThree/IdGen) for C#, there's a great [How it works](https://github.com/RobThree/IdGen#how-it-works) in the readme, too.
+This project was heavily inspired by [IdGen](https://github.com/RobThree/IdGen) for C#, there's a
+great [How it works](https://github.com/RobThree/IdGen#how-it-works) in the readme, too.
 
 The algorithm is implemented in plain Java without any dependencies. All you need is at least Java 11.
 
