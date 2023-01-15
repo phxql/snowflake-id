@@ -1,6 +1,7 @@
 # SnowflakeId
 
 [![Java CI](https://github.com/phxql/snowflake-id/actions/workflows/build.yaml/badge.svg)](https://github.com/phxql/snowflake-id/actions/workflows/build.yaml)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/de.mkammerer.snowflake-id/snowflake-id/badge.svg)](https://maven-badges.herokuapp.com/maven-central/de.mkammerer.snowflake-id/snowflake-id)
 
 Generates Twitter-like Snowflake ids.
 In short, this is an id scheme to generate unique 64 bit ids which are roughly sortable across multiple systems without
