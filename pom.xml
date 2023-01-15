@@ -6,7 +6,7 @@
 
   <groupId>de.mkammerer.snowflake-id</groupId>
   <artifactId>snowflake-id</artifactId>
-  <version>0.0.2</version>
+  <version>0.0.3-SNAPSHOT</version>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -35,8 +35,8 @@
   <developers>
     <developer>
       <id>phxql</id>
-      <email>kammerer.moritz@gmail.com</email>
-      <name>Moritz Kammerer</name>
+      <email>halbritter.moritz@gmail.com</email>
+      <name>Moritz Halbritter</name>
       <url>https://www.mkammerer.de</url>
     </developer>
   </developers>
