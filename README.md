@@ -34,8 +34,8 @@ Ids from the same generator are monotonically increasing.
 ```xml
 <dependency>
   <groupId>de.mkammerer.snowflake-id</groupId>
-  <artifactId>snowflake-id</artifactId>
-  <version>0.0.1</version>
+    <artifactId>snowflake-id</artifactId>
+    <version>0.0.2</version>
 </dependency>
 ```
 
