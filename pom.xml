@@ -93,6 +93,8 @@
             </goals>
             <configuration>
               <doclint>all</doclint>
+              <failOnWarnings>true</failOnWarnings>
+              <locale>en_US</locale>
             </configuration>
           </execution>
         </executions>
