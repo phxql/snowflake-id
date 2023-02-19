@@ -11,6 +11,8 @@ import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * Generates snowflake ids. This class is thread safe.
+ *
+ * @author Moritz Halbritter
  */
 public class SnowflakeIdGenerator {
     /**

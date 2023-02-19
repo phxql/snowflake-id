@@ -1,3 +1,8 @@
+/**
+ * SnowflakeId module.
+ *
+ * @author Moritz Halbritter
+ */
 module de.mkammerer.snowflakeid {
     exports de.mkammerer.snowflakeid;
     exports de.mkammerer.snowflakeid.options;

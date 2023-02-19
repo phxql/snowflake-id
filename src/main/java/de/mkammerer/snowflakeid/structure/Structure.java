@@ -7,6 +7,8 @@ import java.time.Instant;
 
 /**
  * Id structure.
+ *
+ * @author Moritz Halbritter
  */
 public class Structure {
     private final int timestampBits;

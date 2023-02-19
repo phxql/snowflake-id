@@ -5,6 +5,8 @@ import java.time.Instant;
 
 /**
  * Time source.
+ *
+ * @author Moritz Halbritter
  */
 public interface TimeSource {
     /**

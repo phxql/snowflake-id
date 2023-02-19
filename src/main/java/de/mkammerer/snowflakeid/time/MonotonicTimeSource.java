@@ -6,6 +6,8 @@ import java.util.Objects;
 
 /**
  * A monotonic time source, based on {@link System#nanoTime()}.
+ *
+ * @author Moritz Halbritter
  */
 public class MonotonicTimeSource implements TimeSource {
     private final long start;

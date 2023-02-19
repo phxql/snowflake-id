@@ -4,6 +4,8 @@ import java.util.Objects;
 
 /**
  * Options.
+ *
+ * @author Moritz Halbritter
  */
 public class Options {
     private final SequenceOverflowStrategy sequenceOverflowStrategy;
