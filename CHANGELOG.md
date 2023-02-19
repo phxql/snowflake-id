@@ -5,7 +5,8 @@ to [Semantic Versioning](http://semver.org/).
 
 ## Next version - unreleased
 
-- No changes yet
+- Improve JavaDoc
+- Add new sleep overflow strategy
 
 ## [0.0.2] - 2023-01-15
 
