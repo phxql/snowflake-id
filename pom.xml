@@ -10,6 +10,7 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <java.version>11</java.version>
   </properties>
 
   <name>SnowflakeId</name>
@@ -104,7 +105,7 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
         <configuration>
-          <release>11</release>
+          <release>${java.version}</release>
           <parameters>true</parameters>
           <showDeprecation>true</showDeprecation>
           <failOnWarning>true</failOnWarning>
@@ -142,7 +143,7 @@
         <configuration>
           <toolchains>
             <jdk>
-              <version>11</version>
+              <version>${java.version}</version>
             </jdk>
           </toolchains>
         </configuration>
