@@ -2,13 +2,26 @@ package de.mkammerer.snowflakeid.options;
 
 import java.util.Objects;
 
+/**
+ * Options.
+ */
 public class Options {
     private final SequenceOverflowStrategy sequenceOverflowStrategy;
 
+    /**
+     * Constructor.
+     *
+     * @param sequenceOverflowStrategy the sequence overflow strategy
+     */
     public Options(SequenceOverflowStrategy sequenceOverflowStrategy) {
         this.sequenceOverflowStrategy = Objects.requireNonNull(sequenceOverflowStrategy, "sequenceOverflowStrategy");
     }
 
+    /**
+     * Returns the sequence overflow strategy.
+     *
+     * @return the sequence overflow strategy
+     */
     public SequenceOverflowStrategy getSequenceOverflowStrategy() {
         return sequenceOverflowStrategy;
     }
@@ -31,8 +44,21 @@ public class Options {
             '}';
     }
 
+    /**
+     * Sequence overflow strategy.
+     */
     public enum SequenceOverflowStrategy {
+        /**
+         * Throws an exception if a sequence overflow occurs.
+         */
         THROW_EXCEPTION,
-        SPIN_WAIT
+        /**
+         * Spin waits for the next sequence if a sequence overflow occurs.
+         */
+        SPIN_WAIT,
+        /**
+         * Sleeps until the next sequence if a sequence overflow occurs.
+         */
+        SLEEP
     }
 }

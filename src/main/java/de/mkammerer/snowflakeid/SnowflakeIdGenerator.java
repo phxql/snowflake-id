@@ -9,6 +9,9 @@ import java.util.Objects;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+/**
+ * Generates snowflake ids. This class is thread safe.
+ */
 public class SnowflakeIdGenerator {
     /**
      * Lock for sequence and lastTimestamp.
@@ -94,22 +97,51 @@ public class SnowflakeIdGenerator {
         }
     }
 
+    /**
+     * Returns the generator id.
+     *
+     * @return the generator id
+     */
     public long getGeneratorId() {
         return generatorId;
     }
 
+    /**
+     * Returns the time source.
+     *
+     * @return the time source
+     */
     public TimeSource getTimeSource() {
         return timeSource;
     }
 
+    /**
+     * Returns the options.
+     *
+     * @return the options
+     */
     public Options getOptions() {
         return options;
     }
 
+    /**
+     * Returns the structure.
+     *
+     * @return the structure
+     */
     public Structure getStructure() {
         return structure;
     }
 
+    /**
+     * Creates a custom snowflake id generator.
+     *
+     * @param generatorId the id of the generator. Must be unique across all instances
+     * @param timeSource  the timesource to use
+     * @param structure   the id structure
+     * @param options     the options
+     * @return the created snowflake id generator
+     */
     public static SnowflakeIdGenerator createCustom(long generatorId, TimeSource timeSource, Structure structure, Options options) {
         return new SnowflakeIdGenerator(generatorId, timeSource, structure, options);
     }
@@ -120,7 +152,7 @@ public class SnowflakeIdGenerator {
      * Uses 2020-01-01T00:00:00Z as epoch, 41 bits for the timestamp, 10 for the generator id and 12 for the sequence. If a
      * sequence overflow occurs, uses spin wait to wait for the next timestamp.
      *
-     * @param generatorId id of the generator. Must be unique across all instances
+     * @param generatorId the id of the generator. Must be unique across all instances
      * @return generator
      */
     public static SnowflakeIdGenerator createDefault(int generatorId) {
@@ -134,8 +166,19 @@ public class SnowflakeIdGenerator {
             case SPIN_WAIT:
                 spinWaitForNextTick(lastTimestamp);
                 break;
+            case SLEEP:
+                sleepForTickDuration();
+                break;
             default:
                 throw new AssertionError("Unexpected enum value: " + this.options.getSequenceOverflowStrategy());
+        }
+    }
+
+    private void sleepForTickDuration() {
+        try {
+            Thread.sleep(timeSource.getTickDuration().toMillis());
+        } catch (InterruptedException e) {
+            // Do nothing
         }
     }
 

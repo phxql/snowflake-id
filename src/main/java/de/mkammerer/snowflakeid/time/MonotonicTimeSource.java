@@ -4,11 +4,19 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.Objects;
 
+/**
+ * A monotonic time source, based on {@link System#nanoTime()}.
+ */
 public class MonotonicTimeSource implements TimeSource {
     private final long start;
     private final long offset;
     private final Instant epoch;
 
+    /**
+     * Constructor.
+     *
+     * @param epoch the epoch
+     */
     public MonotonicTimeSource(Instant epoch) {
         this.epoch = Objects.requireNonNull(epoch, "epoch");
 

@@ -7,6 +7,8 @@ import de.mkammerer.snowflakeid.time.MonotonicTimeSource;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -21,12 +23,12 @@ import static org.assertj.core.api.Assertions.*;
 
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 public class SnowflakeIdGeneratorTest {
-    @Test
-    public void generate_unique() {
+    @ParameterizedTest
+    @EnumSource(value = Options.SequenceOverflowStrategy.class, names = "THROW_EXCEPTION", mode = EnumSource.Mode.EXCLUDE)
+    public void generate_unique(Options.SequenceOverflowStrategy strategy) {
         // Use two generators to generate 20000 ids and check them for uniqueness and increasing order
-
-        SnowflakeIdGenerator generator0 = SnowflakeIdGenerator.createDefault(0);
-        SnowflakeIdGenerator generator1 = SnowflakeIdGenerator.createDefault(1);
+        SnowflakeIdGenerator generator0 = SnowflakeIdGenerator.createCustom(0, MonotonicTimeSource.createDefault(), Structure.createDefault(), new Options(strategy));
+        SnowflakeIdGenerator generator1 = SnowflakeIdGenerator.createCustom(1, MonotonicTimeSource.createDefault(), Structure.createDefault(), new Options(strategy));
         int count = 10_000;
 
         Set<Long> ids = new HashSet<>(count);
@@ -95,6 +97,18 @@ public class SnowflakeIdGeneratorTest {
     }
 
     @Test
+    public void sequence_overflow_sleep() {
+        // We use 1 bit for the sequence, this should overflow pretty fast!
+        SnowflakeIdGenerator sut = SnowflakeIdGenerator.createCustom(0, MonotonicTimeSource.createDefault(), new Structure(50, 12, 1), new Options(Options.SequenceOverflowStrategy.SLEEP));
+
+        assertThatCode(() -> {
+            for (int i = 0; i < 10; i++) {
+                sut.next();
+            }
+        }).doesNotThrowAnyException();
+    }
+
+    @Test
     public void protect_against_negative_ticks() {
         MockTimeSource mockTimeSource = new MockTimeSource(MockTimeSource.DEFAULT_EPOCH, -1);
 
@@ -130,12 +144,16 @@ public class SnowflakeIdGeneratorTest {
                 futures.add(executorService.submit(sut::next));
             }
 
+            Set<Long> generatedIds = new HashSet<>(ids);
             for (Future<Long> future : futures) {
-                future.get();
+                Long id = future.get();
+                if (!generatedIds.add(id)) {
+                    fail(id + " is a duplicate");
+                }
             }
+            assertThat(generatedIds).hasSize(ids);
         } finally {
             executorService.shutdownNow();
         }
-
     }
 }

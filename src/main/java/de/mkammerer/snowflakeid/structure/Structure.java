@@ -5,11 +5,22 @@ import de.mkammerer.snowflakeid.time.TimeSource;
 import java.time.Duration;
 import java.time.Instant;
 
+/**
+ * Id structure.
+ */
 public class Structure {
     private final int timestampBits;
     private final int generatorBits;
     private final int sequenceBits;
 
+    /**
+     * Constructor.
+     *
+     * @param timestampBits the bits used for the timestamp. Must be greater than 0
+     * @param generatorBits the bits used for the generator. Must be between 1 (inclusive) and 31 (inclusive)
+     * @param sequenceBits  the bits used for the sequence. Must be between 1 (inclusive) and 31 (inclusive)
+     * @throws IllegalArgumentException if an argument is invalid, or if the bits don't add up to 63
+     */
     public Structure(int timestampBits, int generatorBits, int sequenceBits) {
         if (timestampBits < 1) {
             throw new IllegalArgumentException("timestampBits must no be <= 0, but was " + timestampBits);
@@ -31,34 +42,76 @@ public class Structure {
         this.sequenceBits = sequenceBits;
     }
 
+    /**
+     * Returns the bits used for the timestamp.
+     *
+     * @return the bits used for the timestamp
+     */
     public int getTimestampBits() {
         return timestampBits;
     }
 
+    /**
+     * Returns the bits used for the generator.
+     *
+     * @return the bits used for the generator
+     */
     public int getGeneratorBits() {
         return generatorBits;
     }
 
-    public long maxGenerators() {
-        return 1L << generatorBits;
-    }
-
+    /**
+     * Returns the bits used for the sequence.
+     *
+     * @return the bits used for the sequence
+     */
     public int getSequenceBits() {
         return sequenceBits;
     }
 
+    /**
+     * Returns the maximum number of generators.
+     *
+     * @return the maximum number of generators
+     */
+    public long maxGenerators() {
+        return 1L << generatorBits;
+    }
+
+    /**
+     * Returns the maximum number of sequence ids.
+     *
+     * @return the maximum number of sequence ids
+     */
     public long maxSequenceIds() {
         return 1L << sequenceBits;
     }
 
+    /**
+     * Returns the maximum number of timestamps.
+     *
+     * @return the maximum number of timestamps
+     */
     public long maxTimestamps() {
         return 1L << timestampBits;
     }
 
+    /**
+     * Calculates when the sequence ids will wrap around
+     *
+     * @param timeSource the used time source
+     * @return the wrap around duration
+     */
     public Duration calculateWraparoundDuration(TimeSource timeSource) {
         return timeSource.getTickDuration().multipliedBy(maxTimestamps());
     }
 
+    /**
+     * Calculates when the sequence ids will wrap around
+     *
+     * @param timeSource the used time source
+     * @return the wrap around instant
+     */
     public Instant calculateWraparoundDate(TimeSource timeSource) {
         return timeSource.getEpoch().plus(calculateWraparoundDuration(timeSource));
     }
