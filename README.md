@@ -116,6 +116,10 @@ Wraparound duration: PT610839H47M35.552S
 Wraparound date: 2089-09-06T15:47:35.552Z
 ```
 
+## Building from source
+
+[See here](docs/building.md)
+
 ## Changelog?
 
 [See here](CHANGELOG.md).
