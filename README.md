@@ -34,10 +34,16 @@ Ids from the same generator are monotonically increasing.
 
 ```xml
 <dependency>
-  <groupId>de.mkammerer.snowflake-id</groupId>
+    <groupId>de.mkammerer.snowflake-id</groupId>
     <artifactId>snowflake-id</artifactId>
     <version>0.0.2</version>
 </dependency>
+```
+
+### Gradle
+
+```gradle
+implementation 'de.mkammerer.snowflake-id:snowflake-id:0.0.2'
 ```
 
 ### Simple example
