@@ -7,6 +7,7 @@ to [Semantic Versioning](http://semver.org/).
 
 - Improve JavaDoc
 - Add new sleep overflow strategy
+- Ensure GraalVM compatibility
 
 ## [0.0.2] - 2023-01-15
 
