@@ -21,5 +21,6 @@ jobs:
                 with:
                     java-version: '23'
                     distribution: 'graalvm'
+                    native-image-job-reports: 'true'
             -   name: Build with Maven
                 run: mvn --batch-mode --no-transfer-progress --activate-profiles native test
