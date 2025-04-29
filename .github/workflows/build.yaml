@@ -19,7 +19,7 @@ jobs:
             -   uses: actions/checkout@v4
             -   uses: graalvm/setup-graalvm@v1
                 with:
-                    java-version: '23'
+                    java-version: '24'
                     distribution: 'graalvm'
                     native-image-job-reports: 'true'
             -   name: Build with Maven
