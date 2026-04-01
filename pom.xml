@@ -12,6 +12,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <java.version>11</java.version>
     <junit.version>6.0.3</junit.version>
+    <gpg.keyname>9ADA86837C216DC9AC71D9F35B5E50B8DD8E9063</gpg.keyname>
   </properties>
 
   <name>SnowflakeId</name>
@@ -175,24 +176,18 @@
           <version>3.2.8</version>
         </plugin>
         <plugin>
-          <groupId>org.sonatype.plugins</groupId>
-          <artifactId>nexus-staging-maven-plugin</artifactId>
-          <version>1.7.0</version>
+          <groupId>org.sonatype.central</groupId>
+          <artifactId>central-publishing-maven-plugin</artifactId>
+          <version>0.10.0</version>
+        </plugin>
+        <plugin>
+          <groupId>org.graalvm.buildtools</groupId>
+          <artifactId>native-maven-plugin</artifactId>
+          <version>1.0.0</version>
         </plugin>
       </plugins>
     </pluginManagement>
   </build>
-
-  <distributionManagement>
-    <snapshotRepository>
-      <id>ossrh</id>
-      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-    </snapshotRepository>
-    <repository>
-      <id>ossrh</id>
-      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
-    </repository>
-  </distributionManagement>
 
   <profiles>
     <profile>
@@ -203,15 +198,14 @@
       <build>
         <plugins>
           <plugin>
-            <groupId>org.sonatype.plugins</groupId>
-            <artifactId>nexus-staging-maven-plugin</artifactId>
+            <groupId>org.sonatype.central</groupId>
+            <artifactId>central-publishing-maven-plugin</artifactId>
             <extensions>true</extensions>
             <configuration>
-              <!-- The Base URL of Nexus instance where we want to stage -->
-              <nexusUrl>https://oss.sonatype.org/</nexusUrl>
-              <serverId>ossrh</serverId>
-              <autoReleaseAfterClose>true</autoReleaseAfterClose>
-              <autoDropAfterRelease>true</autoDropAfterRelease>
+              <deploymentName>snowflake-id</deploymentName>
+              <publishingServerId>central</publishingServerId>
+              <autoPublish>true</autoPublish>
+              <waitUntil>published</waitUntil>
             </configuration>
           </plugin>
 
@@ -250,7 +244,6 @@
           <plugin>
             <groupId>org.graalvm.buildtools</groupId>
             <artifactId>native-maven-plugin</artifactId>
-            <version>1.0.0</version>
             <extensions>true</extensions>
             <executions>
               <execution>

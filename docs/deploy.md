@@ -1,5 +1,4 @@
-- Import GPG signing key
-- Configure credentials for `nexus-staging-plugin`,
-  see [here](https://help.sonatype.com/repomanager2/staging-releases/configuring-your-project-for-deployment). The
-  server id is `ossrh`
+- Import GPG signing key (key id is `9ADA86837C216DC9AC71D9F35B5E50B8DD8E9063`)
+- Configure credentials for `central-publishing-maven-plugin` in `~/.m2/settings.xml`. The
+  server id is `central`
 - Run `mvn clean deploy -P deploy`
